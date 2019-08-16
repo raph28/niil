@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <title>Welcome To Online Doctor :D </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap.min.css">
+  <link href="css/bootstrap-imgupload.css" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script>
+
+	var syms = []
+
+	function updateList() {
+		let lis = ""
+		syms.map((data, i) => {
+			lis += "<li>" + data + "</li>"
+		})
+
+		$("#sym_list")[0].innerHTML = `
+			<ul>`
+			+ lis +
+			`</ul>
+		`
+	}
+
+	$(document).ready(function(){
+
+		// bind method to add symptom button
+
+		$("#add_symptom").click(() => {
+			let sym = $("input[list='datalist1']")[0].value
+			syms.push(sym)
+			updateList()
+			$("input[list='datalist1']")[0].value = ""
+		});
+
+
+		$("#add_image").click(() => {
+			let input=$("input:image").value
+			var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+
+		});
+
+		// $("#add_image").click(() => {
+		// 	let sym = $("input[list='datalist1']")[0].value
+		// 	syms.push(sym)
+		// 	updateList()
+		// 	$("input[list='datalist1']")[0].value = ""
+		// });
+
+		$("#diag").click(() => {
+			$.post(
+				"http://localhost:8000/symptoms",
+				{
+					symptoms : syms
+				},
+				(data, status) => {
+					if(data.error){
+            console.log(data.error)
+					} else {
+						// no error occuredro 
+      			syms = []
+						updateList()
+
+            // you can access data via data.key
+            var bimari = data.desease
+            $("#result")[0].innerHTML = `
+              <h2>
+                ` + bimari + `
+              </h2>
+            `
+					}
+				},
+				"json"
+			)
+		})
+
+		
+		$("#diag").click(() => {
+			$.post(
+				"http://localhost:5000/skins",{
+					image: reader
+				},
+				(data,status) => {
+
+					var piuy=data.ans
+					$("#result1")[0].innerHTML = `<h2>` + piuy + `</h2>   `
+					}
+				},
+				"json"
+
+				}
+
+			)	
+				
+		})
+	    // $("button").click(function(){
+	    //     $.get("demo_test.asp", function(data, status){
+	    //         alert("Data: " + data + "\nStatus: " + status);
+	    //     });
+
+	    //     $.post("/postmethod", {
+	    //     	jsdata: data
+	    //     }, (data, status) => {
+
+	    //     }, "json");
+
+	    // });
+	});
+</script>
+
+
+
+
+ 
+</head>
+<body>
+
+<div class="jumbotron text-center">
+  <h1>Welcome To Online Doctor :D </h1> 
+  <p>We try to predict a disease based on the symptoms entered </p> 
+  <form class="form-inline">
+    <div class="input-group">
+      <input type="text" class="form-control" list="datalist1" size="40" placeholder="Symptoms" required>
+      
+       <datalist id="datalist1">
+  		<option value="Itching">
+  		<option value="Skin Rash">
+  		<option value="Nodal Skin Eruptions">
+  		<option value="Continuous Sneezing">
+  		<option value="Shivering">
+  		<option value="Chills">
+  		<option value="Joint Pain">
+  		<option value="Stomach Pain">
+  		<option value="Acidity">
+  		<option value="Ulcers On Tongue">
+  		<option value="Muscle Wasting">
+  		<option value="Vomiting">
+  		<option value="Burning Micturition">
+  		<option value="Spotting Urination">
+  		<option value="Fatigue">
+  		<option value="Weight Gain">
+  		<option value="Anxiety">
+  		<option value="Cold Hands And Feet">
+  		<option value="Mood Swings">
+  		<option value="Weight Loss">
+  		<option value="Restlessness">
+  		<option value="Lethargy">
+  		<option value="Patches In Throat">
+  		<option value="Irregular Sugar Level">
+  		<option value="Cough">
+  		<option value="High Fever">
+  		<option value="Sunken Eyes">
+  		<option value="Breathlessness">
+  		<option value="Sweating"> 
+  		<option value="Dehydration">
+  		<option value="Indigestion">
+  		<option value="Headache">
+  		<option value="Yellowish Skin">
+  		<option value="Dark Urine">
+  		<option value="Nausea">
+  		<option value="Loss Of Appetite">
+  		<option value="Pain Behind The Eyes">
+  		<option value="Back Pain">
+  		<option value="Constipation">
+  		<option value="Abdominal Pain">
+  		<option value="Diarrhoea">
+  		<option value="Mild Fever">
+  		<option value="Yellow Urine">
+  		<option value="Yellowing Of Eyes">
+  		<option value="Acute Liver Failure">
+  		<option value="Fluid Overload">
+  		<option value="Swelling Of Stomach	">
+  		<option value="Swelled Lymph Nodes">
+  		<option value="Malaise">
+  		<option value="Blurred And Distorted Vision">
+  		<option value="Phlegm">
+  		<option value="Throat Irritation">
+  		<option value="Redness Of Eyes">
+  		<option value="Sinus Pressure">
+  		<option value="Runny Nose">
+  		<option value="Congestion">
+  		<option value="Chest Pain">
+  		<option value="Weakness In Limbs">
+  		<option value="Fast Heart Rate">
+  		<option value="Pain During Bowel Movements">
+  		<option value="Pain In Anal Region">
+  		<option value="Bloody Stool">
+  		<option value="Irritation In Anus">
+  		<option value="Neck Pain">
+  		<option value="dizziness">
+  		<option value="cramps">
+  		<option value="bruising">
+		<option value="obesity">
+		<option value="swollen legs">
+		<option value="swollen blood vessels">
+		<option value="puffy face and eyes">
+		<option value="enlarged thyroid">
+		<option value="brittle nails">
+		<option value="swollen extremeties">
+		<option value="excessive hunger">
+		<option value="extra maritalcontacts">
+		<option value="drying and tingling lips">
+		<option value="slurred speech">
+		<option value="knee pain">
+		<option value="hip joint pain">
+		<option value="muscle weakness">
+		<option value="stiff neck">
+		<option value="swelling joints">
+		<option value="movement stiffness">
+		<option value="spinning movements">
+		<option value="loss of balance">
+		<option value="unsteadiness">
+		<option value="weakness of one body side">
+		<option value="loss of smell">
+		<option value="bladder discomfort">
+		<option value="foul smell of urine">
+		<option value="continuous feel of urine">
+		<option value="internal itching">
+		<option value="passage of gases">
+		<option value="toxic look (typhos)">
+        <option value="depression">
+		<option value="irritability">
+		<option value="muscle pain">
+		<option value="altered sensorium">
+		<option value="red spots over body">
+		<option value="belly pain">
+		<option value="abnormal menstruation">
+		<option value="dischromic patches">
+		<option value="watering from eyes">
+		<option value="increased appetite">
+		<option value="polyuria">
+		<option value="family history">
+		<option value="mucoid sputum">
+		<option value="rusty sputum	">
+		<option value="lack of concentration">
+		<option value="visual disturbances">
+		<option value="receiving blood transfusion">
+        <option value="receiving unsterile injections">
+		<option value="coma">
+		<option value="stomach bleeding">
+		<option value="distention of abdomen">
+		<option value="history of alcohol consumption">
+		<option value="fluid overload">
+		<option value="blood in sputum">
+		<option value="prominent veins on calf">
+        <option value="palpitations">
+		<option value="painful walking">
+		<option value="pus filled pimples">
+		<option value="blackheads">
+		<option value="scurring">
+		<option value="skin_peeling">
+		<option value="silver like dusting">
+		<option value="small dents in nails">
+		<option value="inflammatory nails">
+		<option value="blister">
+        <option value="red sore around nose">
+		<option value="yellow crust ooze">
+
+</datalist>
+      <div class="input-group-btn">
+        <button type="button" class="btn btn-danger" id="add_symptom">Enter Symptom</button>
+      </div>
+    </div>
+  </form>
+  
+    <br>
+
+   	 <button type="button" class="btn btn-danger" id="diag">Diagnose </button>
+  <div class="input-group"> 	 
+ <input type="file" accept="image/*" class="form-control" required>
+ <div class="input-group-btn">
+        <button type="button" class="btn btn-danger" id="add_image">upload</button>
+      </div>
+  </div>  
+
+
+    <br>
+
+   	 <button type="button" class="btn btn-danger" id="diag1">Diagnose </button>
+  
+  <input type='file' onchange="readURL(this);" />
+        <img id="blah" src="#" alt="your image" />
+       
+      
+
+<script> 
+        function readURL(input){
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+		}
+
+
+</script> 
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div id="sym_list"></div>
+		</div>
+		<div class="col-md-6">
+      <div id="result"></div>
+    </div>
+    <div class="col-md-6">
+      <div id="result1"></div>
+    </div>
+	</div>
+</div>
+
+<style>
+.jumbotron {
+    background-color: #7f7fbf;
+    color: #fff;
+    padding: 50px 25px;
+}
+
+.container-fluid {
+    padding: 50px 50px;
+}
+</body>
+</html>
